@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ITEM CARD</title>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .card {
+            width: 300px;
+            border-radius: 12px;
+            box-sizing: 0 2px 12px rgba(0 0 0 0.1);
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.3s;
+        }
+        .card img{
+          width: 300px;
+          height: 40vh;          
+        }
+        .card:hover {
+          transform:translateY(-5ps);
+        }
+        .card-body {
+            padding: 15px;
+        }
+        h3{
+          color: red;
+        }
+
+       body {
+            background-color:black;
+        }
+        .prod-desc{
+          font-size: 16px;
+          color: black;
+        }
+    </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://picsum.photos/200/300" alt="">
+    <div class="card-body">
+        <h3>card title</h3>
+        <p class="prod-desc">some discription text here...</p>
+    </div>
+
+  </div>  
+</body>
+</html>

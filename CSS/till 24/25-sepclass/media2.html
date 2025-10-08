@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>media</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-areas:header header header header header'
+                                 leftbar  maincontent maincontent maincontent  maincontent rightbar 
+                                 footer footer footer footer footer footer   ;
+        }
+        .div1 {
+            grid-area: header;
+        }
+        .div2 {
+            grid-area: leftbar;
+        }
+        .div3 {
+            grid-area:maincontent ;
+        }
+        .div4{
+            grid-area:rightbar ;
+        }
+        .div4 li {
+            margin-bottom: ;
+        }
+        .div5 {
+            grid-area: fotter;
+            text-align: center;
+            color: black;
+        }
+
+        @media only screen and(max-width:600px) {
+         }
+         @media only screen and (min-width:600px) {
+            .div1 { (grid-area: 1 /span6;)
+         }
+         .div2 {
+              grid-area: 2 /span 6;
+         }
+
+         .div3 {
+            grid-area: 2 /span 6;
+         }
+          .div4 {
+            grid-area: 2 /span 6;
+          }
+          .div5 {
+            grid-area: 2 /span 6;
+          }
+          @media only screen and (min-width:600px) {
+           div1. {
+
+           }
+          }
+          
+        
+          
+    </style>
+</head>
+<body>
+   <div class="container">
+    <div class="div1">
+        <h1>header</h1>
+
+    </div>
+<div class="div2">
+        <ul>
+            <li>item 1</li>
+            <li>item 2</li>
+            <li>item 3</li>
+        </ul>
+
+    </div>
+    <div class="div3">
+        <h1>content heading</h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos error doloremque perferendis exercitationem et, ab totam atque ducimus sequi quisquam officiis animi necessitatibus eos maiores ex quam quo ipsam rerum nihil obcaecati ipsa suscipit aliquid. Ipsam dolor aliquid nemo laboriosam id ea error vitae. Repudiandae cumque ipsum nesciunt ab architecto?</p>
+    </div>
+</body>
+</html>

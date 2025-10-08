@@ -1,0 +1,23 @@
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align:right;
+}
+
+.center {
+    text-align:center;
+}
+
+.indent {
+    text-indent:-5% ;
+}
+
+.latterspacing  {
+    latterspacing:-0.1px;
+}
+
+.linehight {
+    /*linehight:2; multiple:width;
+}

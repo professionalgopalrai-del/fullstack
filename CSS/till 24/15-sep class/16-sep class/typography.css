@@ -1,0 +1,35 @@
+
+
+
+
+.serif{
+    font-family: serif, 'times new roman',Times;
+}
+ 
+.sans-serif{
+    font-family:sans-serif;
+}
+
+.monospace {
+    font-family:'Courier New', Courier, monospace;
+}
+
+.cursive {
+    font-family:cursive;
+}
+
+.poppins-regular {
+    font-family:"poppins", sans-serif;
+    font: weight 400;
+    font-style: normal;
+}
+
+
+
+
+
+
+
+
+
+
