@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Prevent Default</title>
+</head>
+<body>
+   <form id="myFORM">
+    <input type="text" placeholder="Enter Name" name="name">
+    <button type="submit">Submit</button>
+
+   </form>
+
+   <a href="https://www.Google.com" id="anchor">Go to google</a>
+   <script>
+    document.getElementById('myform').addEventListener("submit", (event) => {
+        event.preventDefault();
+        console.log("Form submission is stopped");
+        console.log(event);
+    })
+   </script>
+</body>
+</html>

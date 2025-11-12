@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    
+
+    <title>Event Delegation </title>
+</head>
+<body>
+     <ul>
+        <li id="i1">Item 1</li>
+        <li id="i2">Item 2</li>
+        <li id="i3">Item 3</li>
+        <li id="i4">Item 4</li>
+
+         <li id="i1">Item 5</li>
+        <li id="i2">Item 6</li>
+        <li id="i3">Item 7</li>
+        <li id="i4">Item 8</li>
+
+
+
+     </ul>
+     <script>
+        const list = document.getElementById("list");
+
+
+        list.addEventListener('click', () => {
+            console.log("List is clicked");
+            console.log(e.target.textContent,"has been clicked");
+        } );
+    
+     </script>
+     
+</body>
+</html>
