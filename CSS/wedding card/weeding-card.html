@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Card</title>
+    <link rel="stylesheet" href="weeding-card.css">
+
+
+</head>
+<body>
+    <audio id="music" loop>
+        <source src="wedding-music.mp3" type="audio/mpeg">
+        Your browser does not supprt the audio element.
+    </audio>
+
+    <div class="card">
+        <div class="front">
+            <h1 class="animate-text">You're Invited!</h1>
+            <p class="animate-text"> To celebrate the wedding </p>
+            <h2 class="animate-text"> Rohit & Anjali</h2>
+            <button onclick="openCard()">Open Card</button>
+        </div>
+
+        
+        <div class="inside" id="insideCard">
+            <h2 class="animate-text">Wedding celebration</h2>
+            <p class="animate-text">join us on 25th December 2029 at 6:00 PM</p>
+            <p class="animate-text"> Venue: Sunshine Banquet Hall, <City:Lucknow>Lucknow</City:Lucknow></p>
+            <button onclick="closeCard()">Close</button>
+        </div>
+    </div>
+
+    <canvas id="confetti"></canvas>
+
+    <script src="weeding-card.js"></script>
+</body>
+</html>

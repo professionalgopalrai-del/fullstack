@@ -37,7 +37,7 @@
 // }
 // console.log("string size =",size); //12
 
-// for-in loop 
+           // for-in loop 
 
 // let student = {
 //    name : "gopal rai",
@@ -56,16 +56,18 @@
 //  } 
 //  }
 
-// let gameNum =25;
+  //let gameNum =25;
 
  
-//  let userNUM = prompt("Guess the game number :");
+ // let userNUM = prompt("Guess the game number :");
 
-//  while(userNUM !== gameNUM) {
+ // while(userNUM != gameNUM) {
+  //   userNUM = prompt("You entered wrong number. Guess again");
+ // }
 
-//  }
+  //console.log("Congratulations, you entered the right number");
 
-// Strings 
+     // Strings 
 //let str = "PHYSICS WALLAH";
 
 //console.log(str[5]); 
@@ -80,10 +82,17 @@
 
 // console.log("the cost of", obj.item, "is",obj.price,"rupees");
 
-// // Template Literals 
+//        // Template Literals 
 // let specialString = `This is a template literal`;
 // console.log(typeof specialString);
 
+     // strings methods
+
 let string = "gopal rai";
 
-str = str.UpperCase
+str = str.UpperCase();
+console.log(str);
+
+
+
+
