@@ -1,11 +1,17 @@
-let canvas =
+ alert("JS connected");
+ const canvas =
  document.getElementById("gameCanvas");
+ console.log(canvas);
 
-let ctx = canvas.getContext("2d");
+ const ctx = canvas.getContext("2d");
+ console.log(ctx);
+ 
+
 
 let box = 20;
-let snake = [{ x: 9 * box, y: 10 *box}];
+let snake = [{ x: 9 * box, y: 10 * box}];
 let direction = "";
+
 let food = {
 
     x: Math.floor(Math.random() * 19 + 1) * box,
@@ -23,11 +29,15 @@ document.addEventListener("keydown", event =>{
 });
 
 function drawGame() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.Width, canvas.height);
+
+    ctx.fillStyle = "red";
     ctx.clearRect(food.x, food.y, box, box);
 
     for (let i = 0;i < snake.length; i++) { 
         ctx.fillStyle = i === 0 ? "lime" : "white";
-        ctx.fillRect(snake[i].x, snake[i].y,box, box);
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
     }
 
     let headX = snake[0].x;
@@ -43,12 +53,12 @@ function drawGame() {
     if (headX === food.x && headY === food.y) {
         food ={
 
-            x: Math.floor(Math.random() *19 + 1) * box,
+            x: Math.floor(Math.random() * 19 + 1) * box,
             y:Math.floor(Math.random() * 19 + 1) * box
 
         };
     } else {
-        snake.pop();
+        snake.Pop();
     }
 
 

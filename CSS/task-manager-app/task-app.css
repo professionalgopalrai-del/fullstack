@@ -1,0 +1,24 @@
+body {
+    font-family: Arial;
+    background: #f0f0f0;
+    text-align: center;
+}
+
+.input-box {
+    margin: 20px;
+}
+
+li {
+    list-style: none;
+    background: white;
+    padding: 10px;
+    margin: 8px auto;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}

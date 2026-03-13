@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Home - House Selling Company  </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+   
+    <header>
+        <h1>Dream Home</h1>
+        <p>Find Your Perfect House</p>
+     </header>
+     
+     <section class="search">
+        <input type="text" id="seachBox" placeholder="Search by Country...">
+        <button onclick="search()">Search</button>
+
+     </section>
+
+    <!-- <section class="properties" id="propertyList"></section> -->
+
+    <section class="filter"  class="properties" id="propertyList">
+        <h2>Filter by Price</h2>
+        <button onclick="filterHouse('all')">All</button>
+        <button onclick="filterHouse('low')">Below $100,000</button>
+        <button onclick="filterHouse('high')">Above $100,000</button>
+       </section>
+
+       <section class="house">
+
+        <div class="house low">
+            <img src="https://via.placeholder.com/300" alt="">
+            <h3>Small Family House</h3>
+            <p>Location: New York</p>
+            <p>Price: $80,000</p>
+            <button onclick="contact()">Contact Seller</button>
+            </div>
+
+            <div class="house-high">
+                <img src="https://via.placeholder.com/300" alt="">
+                <h3>Modern Apartment</h3>
+                <p>Location: India</p>
+                <p>Price: $95,000</p>
+                <button onclick="contact()">Contact Seller</button>
+            </div>
+
+         </section>
+
+         <footer>
+            <p>© 2026 Dream Homes Real Estate</p>
+         </footer>
+
+         <script src="script.js"></script>
+
+
+
+</body>
+</html>

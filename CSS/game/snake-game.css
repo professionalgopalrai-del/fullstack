@@ -1,12 +1,12 @@
 body {
     text-align: center;
-    background: #222;
+    background: #504848;
     color: white;
     font-family: Arial, sans-serif;
 }
 
 #gameCanvas {
-    background: #eea3a3;
-    border: 2px solid #fff;
+    background: #141212;
+    border: 2px solid lime;
     margin-top: 20px;
 }
