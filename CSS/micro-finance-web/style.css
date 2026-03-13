@@ -1,0 +1,139 @@
+/* ===== GLOBAL ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    line-height:1.6;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+section{
+    padding:60px 0;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    background:#009688;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+button:hover{
+    background:#00796b;
+}
+
+/* ===== HEADER ===== */
+header{
+    background:#004d40;
+    color:white;
+    padding:15px 0;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+}
+
+nav ul li{
+    margin-left:20px;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+}
+
+/* ===== HERO ===== */
+.hero{
+    background:linear-gradient(to right,#009688,#004d40);
+    color:white;
+    text-align:center;
+    padding:100px 20px;
+}
+
+.hero h1{
+    font-size:40px;
+}
+
+/* ===== SERVICES ===== */
+.services{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.service-box{
+    flex:1 1 30%;
+    background:#f4f4f4;
+    padding:20px;
+    border-radius:8px;
+    text-align:center;
+}
+
+/* ===== CALCULATOR ===== */
+.calculator input{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+}
+
+.result{
+    font-weight:bold;
+    margin-top:15px;
+    text-align:center;
+}
+
+/* ===== CONTACT ===== */
+.contact form{
+    max-width:500px;
+    margin:auto;
+}
+
+.contact input,
+.contact textarea{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+}
+
+#formMsg{
+    text-align:center;
+    margin-top:10px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    background:#004d40;
+    color:white;
+    text-align:center;
+    padding:20px 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .services{
+        flex-direction:column;
+    }
+}

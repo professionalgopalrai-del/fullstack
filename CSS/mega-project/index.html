@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-with, initial-scale=1.0">
+    <title>Mega Web Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🌐 Mega Web Project</h1>
+        <p>HTML + CSS +JAVASCRIPT in one project</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#form">Form</a></li>
+            <li><a href="#table">Table</a></li>
+            <li><a href="#todo">Todo</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <section id="home">
+            <h2>HTML Elements</h2> 
+
+            <p>This is a <strong>strong</strong>and <em>emphasized</em> text.</p>
+            <p><mark>Highlighted</mark> text and <del>deleted</del> text.</p>
+            <small>Small text example</small>
+
+            <img src="https://via.placeholder.com/150" alt="sample image">
+
+            <h3>List</h3>
+            <ol>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JAVASCRIPT</li>
+            </ol>
+
+            <button id="alertBtn">Click Me</button>
+        </section>
+
+        <section id="form">
+            <h2>Form Elements</h2>
+            <form id="userForm">
+
+                <label>Name :</label>
+                <input type="text" id="name" required>
+
+                <label>Email :</label>
+                 <input type="email" id="email">
+
+                 <label>Password</label>
+                 <input type="password">
+                    
+                 <label>Gender</label>
+                 <input type="radio" name="gender"> Male
+                 <input type="radio" name="gender"> Female
+            
+
+                 <label>Skills</label>
+                 <input type="checkbox"> HTML
+                <input type="checkbox">CSS 
+
+                <select>
+                    <option>Frontend</option>
+                    <option>Backend</option>
+                    <option>Full Stack Development</option>
+                    <option>JavaScript Developer</option>
+                    <option>Python Developer</option>
+                </select>
+
+                <textarea placeholder="Write something..."></textarea>
+
+                <button type="submit">Submit</button>
+             </form>
+          </section>
+
+          <section id="table">
+            <h2>Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Skill</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gopal</td>
+                        <td> HTML, CSS , JAVASCRIPT , DSA , REACT </td>
+
+                    </tr>
+                </tbody>
+            </table>
+          </section>
+
+          <section id="todo">
+            <h2>Todo App (JavaScript)</h2>
+            <input type="text" id="taskInput" placeholder="Enter task">
+            <button onclick="addTask()">Add</button>
+            <ul id="taskList"></ul>
+          </section>
+
+  </main>
+
+  <footer>
+    <p>&copy ; 2026 Mega Project</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

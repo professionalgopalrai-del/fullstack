@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ludo - Single File (HTML/CSS/JS)</title>
+  <style>
+    :root{
+      --size: 640px;
+      --cell: calc(var(--size) / 15);
+      --bg: #f3f3f7;
+      --board-border: #333;
+      --p1: #ff4d4d; /* red */
+      --p2: #4da6ff; /* blue */
+      --p3: #4dff88; /* green */
+      --p4: #ffd24d; /* yellow */
+    }
+    *{box-sizing:border-box;font-family:Inter, system-ui, sans-serif}
+    body{display:flex;min-height:100vh;align-items:center;justify-content:center;background:linear-gradient(180deg,#e9eefc, #f7f7fb);margin:0;padding:20px}
+    .container{width:var(--size);background:white;border-radius:14px;padding:12px;box-shadow:0 6px 20px rgba(20,30,80,0.12)}
+    h1{font-size:18px;margin:6px 0 12px;text-align:center}
+
+    /* Board grid 15x15 */
+    .board-wrap{display:flex;gap:12px}
+    .board{width:var(--size);height:var(--size);position:relative;border:6px solid var(--board-border);background:var(--bg);}
+    .cell{width:var(--cell);height:var(--cell);position:absolute;border:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;font-size:11px}
+
+    /* Home corners */
+    .home-area{width:calc(var(--cell)*6);height:calc(var(--cell)*6);position:absolute;padding:6px}
+    .home-area .home-box{width:100%;height:100%;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;padding:6px}
+    .home-area p{position:absolute;margin:6px;font-weight:600;font-size:12px}
+
+    /* Player colors */
+    .p1{background:linear-gradient(135deg,var(--p1),#ff9b9b);}
+    .p2{background:linear-gradient(135deg,var(--p2),#9fdaff);}
+    .p3{background:linear-gradient(135deg,var(--p3),#bfffd0);}
+    .p4{background:linear-gradient(135deg,var(--p4),#ffeaa4);}
+
+    /* Tokens (pieces) */
+    .tokens{position:absolute;pointer-events:none}
+    .token{width:calc(var(--cell) * 0.8);height:calc(var(--cell) * 0.8);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#222;font-weight:700;pointer-events:auto;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.16)}
+
+    /* Controls column */
+    .controls{width:260px;padding:12px}
+    .panel{background:#fff;border-radius:8px;padding:12px;box-shadow:0 3px 12px rgba(20,30,80,0.06)}
+    .dice{font-size:40px;width:64px;height:64px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:6px 0;background:#f6f9ff;border:1px solid #e6eefc}
+    button{display:inline-block;padding:8px 12px;border-radius:8px;border:0;background:#1f6feb;color:white;font-weight:700;cursor:pointer}
+    button:disabled{opacity:0.5;cursor:not-allowed}
+    .players{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .player-row{display:flex;align-items:center;gap:8px}
+    .color-box{width:18px;height:18px;border-radius:4px}
+    .log{max-height:200px;overflow:auto;margin-top:8px;padding:8px;background:#fafafa;border-radius:6px;font-size:13px}
+
+    /* small screens */
+    @media (max-width:900px){:root{--size:520px}}
+    @media (max-width:700px){body{padding:8px}.container{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎲 Ludo (Single-file) — Save as <code>ludo.html</code> and open in browser</h1>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div class="board-wrap">
+        <div id="board" class="board" aria-label="Ludo board"></div>
+      </div>
+      <div class="controls">
+        <div class="panel">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="color-box p1"></div><strong>Red</strong>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="color-box p2"></div><strong>Blue</strong>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:10px">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="color-box p3"></div><strong>Green</strong>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="color-box p4"></div><strong>Yellow</strong>
+            </div>
+          </div>
+
+          <hr style="margin:10px 0">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div id="dice" class="dice">-</div>
+            <div>
+              <button id="rollBtn">Roll Dice</button>
+              <button id="newBtn" style="background:#28a745">New Game</button>
+            </div>
+          </div>
+
+          <div class="players">
+            <div class="player-row"><span id="turnText">Turn: Red</span></div>
+            <div class="player-row"><label><input type="checkbox" id="autoPlay"> Auto play (skip idle)</label></div>
+            <div style="margin-top:8px">Rules (simple): 6 to bring piece out. Capture sends home. Safe squares (colored star) are safe.</div>
+          </div>
+
+          <div class="log" id="log"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/*
+  Simple Ludo implementation (single file)
+  - 15x15 grid board
+  - 4 players: red, blue, green, yellow
+  - Each player has 4 pieces
+  - Roll dice, move pieces, capture, safe squares
+  - This is a straightforward playable version suitable for learning
+*/
+
+const BOARD_SIZE = 15; // 15x15
+const CELL = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cell')) || 42;
+const boardEl = document.getElementById('board');
+const diceEl = document.getElementById('dice');
+const rollBtn = document.getElementById('rollBtn');
+const newBtn = document.getElementById('newBtn');
+const turnText = document.getElementById('turnText');
+const logEl = document.getElementById('log');
+const autoPlay = document.getElementById('autoPlay');
+
+// Player order: 0 red,1 blue,2 green,3 yellow
+const players = [
+  {name:'Red', cls:'p1', startIdx:0, homeEntry:1, colorVar:'--p1'},
+  {name:'Blue', cls:'p2', startIdx:13, homeEntry:14, colorVar:'--p2'},
+  {name:'Green', cls:'p3', startIdx:26, homeEntry:27, colorVar:'--p3'},
+  {name:'Yellow', cls:'p4', startIdx:39, homeEntry:40, colorVar:'--p4'},
+];
+
+// Build cells: We'll map the standard Ludo route into 52 outer path positions + inner home rows
+let cells = []; // each cell: {x,y,boardIdx,pathIndex, safe}
+
+// Helper to convert grid coordinates to absolute position
+function pos(x,y){return {left: x * getCellSize(), top: y * getCellSize()}};
+function getCellSize(){const boardStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell'); return parseFloat(boardStyle) || 42}
+
+// Clear board element
+boardEl.innerHTML = '';
+
+// Create a 15x15 grid of absolute cell divs for visuals (not all used)
+for(let r=0;r<BOARD_SIZE;r++){
+  for(let c=0;c<BOARD_SIZE;c++){
+    const el = document.createElement('div');
+    el.className = 'cell';
+    el.style.left = (c * getCellSize()) + 'px';
+    el.style.top = (r * getCellSize()) + 'px';
+    el.dataset.r = r; el.dataset.c = c;
+    boardEl.appendChild(el);
+  }
+}
+
+// Ludo path coordinates (following common layout). We'll predefine the route positions (52 squares)
+// We'll create the path manually by reading coordinates for each of 52 positions starting at Red start and going clockwise
+const routeCoords = [];
+// top-left is (0,0); create route by visual inspection of a 15x15 standard ludo board
+// We'll define a helper to push coords for the outer cross path
+function routePush(r,c){routeCoords.push({r,c});}
+
+// Build left column upward portion (red starting point etc.) - Instead of full manual mapping, use a common mapping for 15x15 Ludo
+// We'll use a mapping array generated by drawing a standard board layout coordinates for 52 positions.
+const mapping = [
+  [6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6], // left to center top
+  [5,6],[4,6],[3,6],[2,6],[1,6],[0,6], // up
+  [0,7],[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],
+  [6,8],[6,9],[6,10],[6,11],[6,12],[6,13],[6,14],
+  [7,14],[7,13],[7,12],[7,11],[7,10],[7,9],[7,8],
+  [8,8],[9,8],[10,8],[11,8],[12,8],[13,8],[14,8],
+  [14,7],[13,7],[12,7],[11,7],[10,7],[9,7],[8,7],
+  [8,6],[8,5],[8,4],[8,3],[8,2],[8,1],[8,0],
+  [7,0],[7,1],[7,2],[7,3],[7,4],[7,5],[7,6]
+];
+// This mapping creates a 98-entry duplication; but we'll slice the first 52 unique positions by iterating until 52
+for(let i=0;i<mapping.length && routeCoords.length<52;i++) routePush(mapping[i][0],mapping[i][1]);
+
+// Mark safe squares (commonly star points) - approximate indexes
+const safeIndices = new Set([0,8,13,21,26,34,39,47]);
+
+// Create a visual overlay for safe squares
+routeCoords.forEach((p, idx) => {
+  const el = document.createElement('div');
+  el.className = 'cell';
+  el.style.left = (p.c * getCellSize()) + 'px';
+  el.style.top = (p.r * getCellSize()) + 'px';
+  el.style.width = getCellSize() + 'px';
+  el.style.height = getCellSize() + 'px';
+  el.style.background = 'transparent';
+  el.style.border = 'none';
+  if(safeIndices.has(idx)){
+    el.style.boxShadow = 'inset 0 0 0 3px rgba(0,0,0,0.03)';
+    el.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z" fill="#000" fill-opacity="0.06"/></svg>'
+  }
+  boardEl.appendChild(el);
+});
+
+// Create home areas corners for each player and their start 'yard' positions
+const homes = {
+  red: {r:0,c:0}, // top-left block area starting at 0,0
+};
+
+// We'll create simple starting yards for each player (4 pieces each) positioned in corners
+const yardPositions = {
+  0: [ // Red (top-left 2x2 area starting at 1,1)
+    {r:1,c:1},{r:1,c:3},{r:3,c:1},{r:3,c:3}
+  ],
+  1: [ // Blue top-right
+    {r:1,c:11},{r:1,c:13},{r:3,c:11},{r:3,c:13}
+  ],
+  2: [ // Green bottom-right
+    {r:11,c:11},{r:11,c:13},{r:13,c:11},{r:13,c:13}
+  ],
+  3: [ // Yellow bottom-left
+    {r:11,c:1},{r:11,c:3},{r:13,c:1},{r:13,c:3}
+  ]
+};
+
+// Render yard visuals
+Object.keys(yardPositions).forEach(pid => {
+  yardPositions[pid].forEach((p, idx) => {
+    const el = document.createElement('div');
+    el.className = 'cell';
+    el.style.left = (p.c * getCellSize()) + 'px';
+    el.style.top = (p.r * getCellSize()) + 'px';
+    el.style.width = getCellSize() + 'px';
+    el.style.height = getCellSize() + 'px';
+    el.style.border = '1px dashed rgba(0,0,0,0.06)';
+    boardEl.appendChild(el);
+  })
+})
+
+// Token container
+const tokensLayer = document.createElement('div');
+tokensLayer.className = 'tokens';
+tokensLayer.style.width = '100%';
+tokensLayer.style.height = '100%';
+boardEl.appendChild(tokensLayer);
+
+// Game state
+let state = {
+  players: [],
+  currentPlayer: 0,
+  dice: 0,
+  rolled: false,
+  winner: null,
+};
+
+function initGame(){
+  state.players = [];
+  for(let pid=0;pid<4;pid++){
+    const pieces = [];
+    for(let i=0;i<4;i++){
+      pieces.push({id:i, pid, pos:-1, atHome:true, finished:false}); // pos: -1 = yard, 0..51 = on route, >=100 = in final stretch (we'll use 100+index)
+    }
+    state.players.push({pid, pieces});
+  }
+  state.currentPlayer = 0; state.dice=0; state.rolled=false; state.winner=null;
+  renderAll(); writeLog('New game started.'); updateUI();
+}
+
+function writeLog(txt){
+  const el = document.createElement('div'); el.textContent = txt; logEl.prepend(el);
+}
+
+function renderAll(){
+  tokensLayer.innerHTML = '';
+  // draw pieces
+  state.players.forEach(p => {
+    p.pieces.forEach(pc => {
+      const el = document.createElement('div');
+      el.className = 'token ' + players[pc.pid].cls;
+      el.textContent = pc.id + 1;
+      el.style.position = 'absolute';
+      el.style.width = (getCellSize() * 0.8) + 'px';
+      el.style.height = (getCellSize() * 0.8) + 'px';
+      el.style.lineHeight = (getCellSize() * 0.8) + 'px';
+      el.dataset.pid = pc.pid; el.dataset.piece = pc.id;
+      el.addEventListener('click', onPieceClick.bind(null, pc));
+
+      let x=0,y=0;
+      if(pc.pos === -1){ // yard
+        const py = yardPositions[pc.pid][pc.id];
+        x = py.c * getCellSize() + (getCellSize()*0.1);
+        y = py.r * getCellSize() + (getCellSize()*0.1);
+      } else if(pc.pos >=100){ // final stretch - center path
+        const finalIdx = pc.pos - 100; // 0..5
+        // final rows for each color map roughly to center columns/rows. We'll map approx centers
+        const mapFinal = [
+          {r:7 - finalIdx, c:7}, // red goes downward into center from top
+          {r:7, c:7 + finalIdx}, // blue
+          {r:7 + finalIdx, c:7}, // green
+          {r:7, c:7 - finalIdx}  // yellow
+        ];
+        const pcoord = mapFinal[pc.pid];
+        x = pcoord.c * getCellSize() + getCellSize()*0.1;
+        y = pcoord.r * getCellSize() + getCellSize()*0.1;
+      } else { // on route
+        const rc = routeCoords[pc.pos];
+        if(rc){ x = rc.c * getCellSize() + getCellSize()*0.1; y = rc.r * getCellSize() + getCellSize()*0.1; }
+      }
+
+      el.style.left = x + 'px'; el.style.top = y + 'px';
+      tokensLayer.appendChild(el);
+    })
+  })
+}
+
+function onPieceClick(pc){
+  // Allow click only if it's current player's piece and a dice was rolled
+  if(state.winner) return;
+  if(pc.pid !== state.currentPlayer) return writeLog('Not your piece.');
+  if(!state.rolled) return writeLog('Roll the dice first.');
+
+  const moves = validMovesForPiece(pc, state.dice);
+  if(moves.length === 0) return writeLog('No valid move for this piece.');
+
+  // if only one move, do it; if multiple, choose first (could be improved to show choices)
+  const move = moves[0];
+  performMove(pc, move);
+}
+
+function validMovesForPiece(pc, dice){
+  const moves = [];
+  // if piece in yard
+  if(pc.pos === -1){ if(dice === 6) moves.push({to: players[pc.pid].startIdx}); return moves; }
+  // if on final stretch
+  if(pc.pos >=100){ const idx = pc.pos - 100 + dice; if(idx <=5) moves.push({to:100 + idx}); return moves; }
+  // normal route
+  let target = (pc.pos + dice) % 52;
+  // Check if should enter final stretch: each player has a 'home entry' index
+  const homeEntryIdx = players[pc.pid].homeEntry; // index preceding final stretch
+  // The classic rule: if piece passes its home entry landing exactly on it + dice allows final stretch start
+  // We'll detect if the move crosses the homeEntry spot
+  let distanceToHomeEntry = (homeEntryIdx - pc.pos + 52) % 52;
+  if(dice > distanceToHomeEntry){ // enters final stretch
+    const over = dice - distanceToHomeEntry - 1; // steps into final stretch
+    if(over <=5) moves.push({to:100 + over});
+  } else {
+    moves.push({to:target});
+  }
+  return moves;
+}
+
+function performMove(pc, move){
+  writeLog(${players[pc.pid].name}moves piece ${pc.id+1} to ${move.to});
+  // find piece in state and update
+  const sp = state.players[pc.pid].pieces.find(x => x.id === pc.id);
+  sp.pos = move.to; sp.atHome = false;
+
+  // capture logic if landing on an opponent on route (not safe)
+  if(move.to < 100){
+    // check safe
+    const idx = move.to;
+    if(!safeIndices.has(idx)){
+      // find opponent pieces at same pos
+      state.players.forEach(p => {
+        p.pieces.forEach(op => {
+          if(op.pos === idx && op.pid !== pc.pid){
+            // send home
+            writeLog(${players[op.pid].name} piece ${op.id+1} captured!);
+            op.pos = -1; op.atHome = true;
+          }
+        })
+      })
+    }
+  }
+
+  // check finish: if piece reached finalPos 100+5
+  if(sp.pos === 100+5){ sp.finished = true; writeLog(${players[sp.pid].name} piece ${sp.id+1} finished.); }
+
+  renderAll();
+  // If dice was 6, player gets another turn
+  if(state.dice === 6){ writeLog(${players[state.currentPlayer].name} rolled a 6 and gets another turn.); state.rolled=false; updateUI(); return; }
+
+  // Otherwise next player
+  nextTurn();
+}
+
+function nextTurn(){
+  // check victory: all 4 pieces finished
+  const p = state.players[state.currentPlayer];
+  if(p.pieces.every(x=>x.finished)){
+    state.winner = state.currentPlayer; writeLog(${players[state.currentPlayer].name} has won the game!); updateUI(); return;
+  }
+
+  state.currentPlayer = (state.currentPlayer + 1) % 4;
+  state.rolled = false; state.dice=0; updateUI();
+
+  // if autoPlay enabled and player has no valid moves after roll attempts, skip
+  if(autoPlay.checked){ // tiny autoplayer: roll automatically
+    setTimeout(()=>{ if(!state.winner){ autoRoll(); } }, 400);
+  }
+}
+
+function updateUI(){
+  turnText.textContent = Turn: ${players[state.currentPlayer].name};
+  diceEl.textContent = state.rolled? state.dice : '-';
+  rollBtn.disabled = state.rolled || !!state.winner;
+}
+
+function rollDice(){
+  if(state.winner) return;
+  if(state.rolled) return;
+  state.dice = Math.floor(Math.random()*6)+1;
+  state.rolled = true;
+  diceEl.textContent = state.dice;
+  writeLog(${players[state.currentPlayer].name} rolled ${state.dice});
+
+  // Check if any piece has a valid move
+  const playable = state.players[state.currentPlayer].pieces.some(pc => validMovesForPiece(pc, state.dice).length > 0);
+  if(!playable){ writeLog('No valid moves for this player.');
+    if(state.dice !== 6){ // advance turn after short delay
+      setTimeout(()=>nextTurn(), 800);
+    } else { state.rolled = false; updateUI(); }
+  }
+  renderAll(); updateUI();
+}
+
+function autoRoll(){ if(!state.rolled) rollDice(); }
+
+rollBtn.addEventListener('click',()=>{ rollDice(); });
+newBtn.addEventListener('click',()=>{ initGame(); });
+
+// Initialize start indexes for each player based on mapping order
+players[0].startIdx = 0; players[0].homeEntry = 50; // red
+players[1].startIdx = 13; players[1].homeEntry = 11; // blue
+players[2].startIdx = 26; players[2].homeEntry = 24; // green
+players[3].startIdx = 39; players[3].homeEntry = 37; // yellow
+
+// Start positions for currently in-yard
+initGame();
+
+// Basic keyboard support
+window.addEventListener('keydown', (e)=>{
+  if(e.key === ' '){ rollDice(); }
+});
+
+</script>
+</body>
+</html>

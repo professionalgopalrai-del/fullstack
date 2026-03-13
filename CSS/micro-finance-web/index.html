@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MicroFund - Microfinance Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="container">
+        <nav>
+            <h2 class="logo">MicroFund</h2>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#calculator">Loan Calculator</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="container">
+        <h1>Empowering Small Businesses</h1>
+        <p>Affordable micro-loans to grow your dreams.</p>
+        <button onclick="scrollToSection('services')">Explore Services</button>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+    <div class="container">
+        <h2>Our Services</h2>
+
+        <div class="services">
+            <div class="service-box">
+                <h3>Small Business Loans</h3>
+                <p>Quick and flexible loans for startups.</p>
+            </div>
+
+            <div class="service-box">
+                <h3>Women Empowerment Finance</h3>
+                <p>Special funding programs for women entrepreneurs.</p>
+            </div>
+
+            <div class="service-box">
+                <h3>Agriculture Loans</h3>
+                <p>Financial support for farmers and rural enterprises.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOAN CALCULATOR -->
+<section id="calculator">
+    <div class="container calculator">
+        <h2>Loan EMI Calculator</h2>
+
+        <input type="number" id="amount" placeholder="Loan Amount">
+        <input type="number" id="interest" placeholder="Interest Rate (%)">
+        <input type="number" id="years" placeholder="Loan Duration (Years)">
+
+        <button onclick="calculateLoan()">Calculate EMI</button>
+
+        <div id="result" class="result"></div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+
+        <form onsubmit="return validateForm()">
+            <input type="text" id="name" placeholder="Your Name">
+            <input type="email" id="email" placeholder="Your Email">
+            <textarea id="message" rows="5" placeholder="Your Message"></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <p id="formMsg"></p>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 MicroFund. All Rights Reserved.</p>
+</footer>
+
+<!-- Link JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

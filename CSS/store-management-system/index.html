@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Management System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<h1>🛒 Store Management System</h1>
+</header>
+
+<main>
+
+<section class="form-section">
+<h2>Add / Edit Product</h2>
+
+<form id="productForm">
+<input type="text" id="name" placeholder="Product Name" required>
+<input type="number" id="price" placeholder="Price" required>
+<input type="number" id="qty" placeholder="Quantity" required>
+<button type="submit">Add / Update Product</button>
+</form>
+
+<input type="text" id="search" placeholder="Search product...">
+</section>
+
+<section class="table-section">
+<h2>Product List</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="productList"></tbody>
+</table>
+<p id="total"></p>
+</section>
+
+<section class="billing-section">
+<h2>Billing</h2>
+<select id="billProduct"></select>
+<input type="number" id="billQty" placeholder="Quantity">
+<button onclick="addToBill()">Add to Bill</button>
+<p id="billTotal">Bill Total: ₹0</p>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

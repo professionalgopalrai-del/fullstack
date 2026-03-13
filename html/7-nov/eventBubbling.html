@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <div id="grandparent">
+    <div id="parent">
+        <button id="child">Click Me!</button>
+
+
+    </div>
+
+    <script>
+        const grandparent= document.getElementById('grandparent');
+        const parentDiv = document.getElementById('parent');
+        const childBtn =  document.getElementById('child');
+
+
+        grandparent.addEventListener('click', () => {
+            console.log("grandparent has been clicked!");
+        });
+        parentDiv.addEventListener('click', (event) => {
+            console.log("Parent div has been clicked!");
+            event.stopPropagation();       // stop the bubbling 
+        });
+
+        childBtn.addEventListener('click', (event) => {
+            console.log("childBtn has been clicked!");
+
+        });
+    </script>
+</body>
+</html>

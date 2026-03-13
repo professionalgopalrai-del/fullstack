@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
+    #grid-container {
+      margin: 20px;
+      border: 1px solid #000;
+      display: grid;
+    }
+    .pixel {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+    }
+    #color-picker {
+      margin-right: 10px;
+    }
+    #controls {
+      margin-bottom: 20px;
+    }
+    button {
+      border: none;
+      background-color: rgb(140, 20, 246);
+      color: white;
+      padding: 5px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pixel Art</h1>
+
+  <div>
+    <input type="color" id="color-picker" value="#000000">
+    <button id="clear-btn">Clear Canvas</button>
+    <input type="number" id="grid-size" value="16" min="1" max="64">
+    <button id="resize-btn">Resize Grid</button>
+  </div>
+
+  <div id="grid-container"></div>
+
+  <script>
+    const gridContainer = document.getElementById('grid-container');
+    const colorpicker = document.getElementById('color-picker');
+    const clearbtn = document.getElementById('clear-btn');
+    const gridSizeInput = document.getElementById('grid-size');
+    const resizeBtn = document.getElementById('resize-btn');
+
+    let isDrawing = false;
+
+    function createGrid(size) {
+      gridContainer.innerHTML = "";
+      gridContainer.style.gridTemplateColumns = `repeat(${size}, 20px)`;
+      for (let i = 0; i < size * size; i++) {
+        let pixel = document.createElement('div');
+        pixel.classList.add('pixel');
+        pixel.addEventListener('mousedown', startDrawing);
+        pixel.addEventListener('mouseup', stopDrawing);
+        pixel.addEventListener('mouseover', draw);
+        gridContainer.appendChild(pixel);
+      }
+    }
+
+    function startDrawing() {
+      isDrawing = true;
+      draw(event);
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    function draw(event) {
+      if (isDrawing && event.target.classList.contains('pixel')) {
+        event.target.style.backgroundColor = colorpicker.value;
+      }
+    }
+
+    resizeBtn.addEventListener('click', () => {
+      const newSize = parseInt(gridSizeInput.value);
+      createGrid(newSize);
+    });
+
+    let pixel = document.querySelectorAll(".pixel")
+
+    clearbtn.addEventListener("click",() => {
+      pixel.forEach(e => {
+        console.log(pixel)
+        e.style.background = "transparent"
+      });
+    }
+    );
+   
+
+    createGrid(16);
+  </script>
+</body>
+</html>
